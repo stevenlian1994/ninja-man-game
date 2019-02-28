@@ -1,136 +1,145 @@
-var world = [
-    [2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2],
-    [0,0,2,0,0,2,0,0],
-    [0,0,2,0,0,2,0,0],
-    [2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2],
-    [2,2,2,2,2,2,2,2],
-];
+var express = require('express');
+var app = express();
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
+});
 
-var dictionary = {
-    0: 'wall',
-    1: 'blank',
-    2: 'sushi'
-}
+// var world = [
+//     [2,2,2,2,2,2,2,2],
+//     [2,2,2,2,2,2,2,2],
+//     [2,2,2,2,2,2,2,2],
+//     [0,0,2,0,0,2,0,0],
+//     [0,0,2,0,0,2,0,0],
+//     [2,2,2,2,2,2,2,2],
+//     [2,2,2,2,2,2,2,2],
+//     [2,2,2,2,2,2,2,2],
+// ];
 
-function updateWorld(){
-    document.getElementById('world').innerHTML = ''
-    for (var i=0;i<world.length; i++){ //world.length
-        document.getElementById('world').innerHTML += "<div class='row'></div>"
-        for (var j=0;j<world[i].length; j++){
-            document.getElementById('world').innerHTML += "<div class='" +dictionary[world[i][j]]+ "'></div>"
-        }
-    }
-}
-updateWorld();
+// var dictionary = {
+//     0: 'wall',
+//     1: 'blank',
+//     2: 'sushi'
+// }
 
-function update(){
-    updateWorld();
-    document.getElementById('ninjaman').style.top = 40*topValue + 'px';
-    document.getElementById('ninjaman').style.left = 40*leftValue + 'px';
-    document.getElementById('header').innerHTML = 'Ninja Man || ' + 'Score: ' + score;
-}
+// function updateWorld(){
+//     document.getElementById('world').innerHTML = ''
+//     for (var i=0;i<world.length; i++){ //world.length
+//         document.getElementById('world').innerHTML += "<div class='row'></div>"
+//         for (var j=0;j<world[i].length; j++){
+//             document.getElementById('world').innerHTML += "<div class='" +dictionary[world[i][j]]+ "'></div>"
+//         }
+//     }
+// }
+// updateWorld();
 
-var topValue = 1;
-var leftValue = 1;
+// function update(){
+//     updateWorld();
+//     document.getElementById('ninjaman').style.top = 40*topValue + 'px';
+//     document.getElementById('ninjaman').style.left = 40*leftValue + 'px';
+//     document.getElementById('header').innerHTML = 'Ninja Man || ' + 'Score: ' + score;
+// }
 
-var score = 0
+// var topValue = 1;
+// var leftValue = 1;
 
-function checkEat(x,y){
-    if(world[x][y] != 1){
-        world[x][y] = 1;
-        score += 10;
-    }
-}
+// var score = 0
 
-var enemyTop = 6;
-var enemyLeft = 4;
+// function checkEat(x,y){
+//     if(world[x][y] != 1){
+//         world[x][y] = 1;
+//         score += 10;
+//     }
+// }
 
-document.getElementById('bluey').style.top = 40*enemyTop + 'px';
-document.getElementById('bluey').style.left = 40*enemyLeft + 'px';
+// var enemyTop = 6;
+// var enemyLeft = 4;
 
-
-
-setInterval(
-    function(){
-        switch(Math.round(4*Math.random())){
-            case 1:
-                if(world[enemyTop-1][enemyLeft] > 0)
-                    enemyTop-=1;
-                break;
-            case 2:
-                if(world[enemyTop+1][enemyLeft] > 0)
-                    enemyTop+=1;
-                break;
-            case 3:
-                if(world[enemyTop][enemyLeft-1] > 0)
-                    enemyLeft-=1;
-                break;
-            case 4:
-                if(world[enemyTop][enemyLeft+1] > 0)
-                    enemyLeft+=1;
-                break;
-        }
-        document.getElementById('bluey').style.top = 40*enemyTop + 'px';
-        document.getElementById('bluey').style.left = 40*enemyLeft + 'px';
-    }
-    , 150);
-
-setInterval(
-    function(){
-        if (enemyTop == topValue && enemyLeft == leftValue){
-            alert('Game Over');
-            document.location.reload();
-        }
-    }
-    , 40);
-
-var noSushi = true;
-
-setInterval(
-    function(){
-        for(var i = 0; i < world.length; i++){
-            if(world[i].includes(2)){
-                console.log('there is sushi');
-                noSushi = false;
-            }
-        }
-        if(noSushi == true){
-            console.log('no sushi');
-            alert('You won');
-            document.location.reload();
-        }
-        noSushi = true;
-    }
-    ,300);
+// document.getElementById('bluey').style.top = 40*enemyTop + 'px';
+// document.getElementById('bluey').style.left = 40*enemyLeft + 'px';
 
 
 
-onkeydown = function(e) {
-    //up 38
-    if(e.keyCode == 38 && world[topValue-1][leftValue] > 0){
-        checkEat(topValue-1,leftValue);
-        topValue -= 1;
-    }
-    //down 40
-    if(e.keyCode == 40 && world[topValue+1][leftValue] > 0){
-        checkEat(topValue+1,leftValue);
-        topValue += 1;
-    }
-    //left 37
-    if(e.keyCode == 37 && world[topValue][leftValue-1] > 0){
-        checkEat(topValue,leftValue-1);
-        leftValue -= 1;
-    }
-    //right 39
-    if(e.keyCode == 39 && world[topValue][leftValue+1] > 0){
-        checkEat(topValue,leftValue+1);
-        leftValue += 1;
-    }
-    update();
-}
+// setInterval(
+//     function(){
+//         switch(Math.round(4*Math.random())){
+//             case 1:
+//                 if(world[enemyTop-1][enemyLeft] > 0)
+//                     enemyTop-=1;
+//                 break;
+//             case 2:
+//                 if(world[enemyTop+1][enemyLeft] > 0)
+//                     enemyTop+=1;
+//                 break;
+//             case 3:
+//                 if(world[enemyTop][enemyLeft-1] > 0)
+//                     enemyLeft-=1;
+//                 break;
+//             case 4:
+//                 if(world[enemyTop][enemyLeft+1] > 0)
+//                     enemyLeft+=1;
+//                 break;
+//         }
+//         document.getElementById('bluey').style.top = 40*enemyTop + 'px';
+//         document.getElementById('bluey').style.left = 40*enemyLeft + 'px';
+//     }
+//     , 150);
+
+// setInterval(
+//     function(){
+//         if (enemyTop == topValue && enemyLeft == leftValue){
+//             alert('Game Over');
+//             document.location.reload();
+//         }
+//     }
+//     , 40);
+
+// var noSushi = true;
+
+// setInterval(
+//     function(){
+//         for(var i = 0; i < world.length; i++){
+//             if(world[i].includes(2)){
+//                 console.log('there is sushi');
+//                 noSushi = false;
+//             }
+//         }
+//         if(noSushi == true){
+//             console.log('no sushi');
+//             alert('You won');
+//             document.location.reload();
+//         }
+//         noSushi = true;
+//     }
+//     ,300);
+
+
+
+// onkeydown = function(e) {
+//     //up 38
+//     if(e.keyCode == 38 && world[topValue-1][leftValue] > 0){
+//         checkEat(topValue-1,leftValue);
+//         topValue -= 1;
+//     }
+//     //down 40
+//     if(e.keyCode == 40 && world[topValue+1][leftValue] > 0){
+//         checkEat(topValue+1,leftValue);
+//         topValue += 1;
+//     }
+//     //left 37
+//     if(e.keyCode == 37 && world[topValue][leftValue-1] > 0){
+//         checkEat(topValue,leftValue-1);
+//         leftValue -= 1;
+//     }
+//     //right 39
+//     if(e.keyCode == 39 && world[topValue][leftValue+1] > 0){
+//         checkEat(topValue,leftValue+1);
+//         leftValue += 1;
+//     }
+//     update();
+// }
 
 
 
