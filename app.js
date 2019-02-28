@@ -1,11 +1,12 @@
-var express = require('express');
-var app = express();
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
-app.listen(process.env.PORT, process.env.IP, function() {
-    console.log("YelpLakes has started!");
-});
+// var express = require('express');
+// var app = express();
+// app.get('/', function (req, res) {
+//   res.send('Hello World!');
+// });
+// app.listen(process.env.PORT, process.env.IP, function() {
+//     console.log("YelpLakes has started!");
+// });
+alert('hi starting');
 
 // var world = [
 //     [2,2,2,2,2,2,2,2],
